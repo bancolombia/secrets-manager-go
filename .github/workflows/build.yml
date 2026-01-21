@@ -63,8 +63,6 @@ jobs:
         run: go build -v ./...
       - name: Test and generate coverage
         run: go test -race -covermode=atomic -coverprofile=coverage.out ./...
-      - name: copy the reportTest to codeCoverage
-        run: cp build/reports/jacoco/generateMergedReport/generateMergedReport.xml jacoco.xml || echo "Code coverage failed"
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
@@ -76,11 +74,11 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           # SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} # Uncomment if using SonarQube Server
-#        with:
-#          # Project metadata can be defined here or in a sonar-project.properties file
-#          args: >
-#            -Dsonar.projectKey=your_project_key
-#            -Dsonar.organization=your_organization_key # Only for SonarCloud
-#            -Dsonar.sources=.
-#            -Dsonar.go.coverage.reportPaths=coverage.out
-#            -Dsonar.qualitygate.wait=true # Fails the action if the quality gate fails
+        with:
+          # Project metadata can be defined here or in a sonar-project.properties file
+          args: >
+            -Dsonar.projectKey=secrets-manager-go
+            -Dsonar.organization=grupo-bancolombia
+            -Dsonar.sources=.
+            -Dsonar.go.coverage.reportPaths=coverage.out
+            -Dsonar.qualitygate.wait=true # Fails the action if the quality gate fails
