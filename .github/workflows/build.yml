@@ -80,6 +80,7 @@ jobs:
             -Dsonar.projectKey=bancolombia_secrets-manager-go
             -Dsonar.organization=grupo-bancolombia
             -Dsonar.sources=.
+            -Dsonar.coverage.exclusions=**/*_test.go
             -Dsonar.go.coverage.reportPaths=coverage.out
             -Dsonar.qualitygate.wait=true
             -Dsonar.branch.name=${{ github.ref_name }}
