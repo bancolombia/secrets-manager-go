@@ -82,3 +82,4 @@ jobs:
             -Dsonar.sources=.
             -Dsonar.go.coverage.reportPaths=coverage.out
             -Dsonar.qualitygate.wait=true
+            -Dsonar.branch.name=${{ github.ref_name }}
