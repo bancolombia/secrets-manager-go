@@ -81,4 +81,4 @@ jobs:
             -Dsonar.organization=grupo-bancolombia
             -Dsonar.sources=.
             -Dsonar.go.coverage.reportPaths=coverage.out
-            -Dsonar.qualitygate.wait=true # Fails the action if the quality gate fails
+            -Dsonar.qualitygate.wait=true
