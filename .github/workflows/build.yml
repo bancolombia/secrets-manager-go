@@ -77,9 +77,9 @@ jobs:
         with:
           # Project metadata can be defined here or in a sonar-project.properties file
           args: >
-            -Dsonar.projectKey=secrets-manager-go
+            -Dsonar.projectKey=bancolombia_secrets-manager-go
             -Dsonar.organization=grupo-bancolombia
             -Dsonar.sources=.
             -Dsonar.go.coverage.reportPaths=coverage.out
             -Dsonar.qualitygate.wait=true
-            -Dsonar.branch.name=main
+            -Dsonar.branch.name=${{ github.ref_name }}
