@@ -15,7 +15,7 @@ func (m *mockVault) GetSecret(name string) (string, error) {
 	return m.secret, m.err
 }
 
-func TestGenericVault_GetSecret_Success(t *testing.T) {
+func TestSecretReader_GetSecret_Success(t *testing.T) {
 	vault := &mockVault{secret: "mysecret", err: nil}
 	secret, err := vault.GetSecret("key")
 	if err != nil {
@@ -26,7 +26,7 @@ func TestGenericVault_GetSecret_Success(t *testing.T) {
 	}
 }
 
-func TestGenericVault_GetSecret_Error(t *testing.T) {
+func TestSecretReader_GetSecret_Error(t *testing.T) {
 	vault := &mockVault{secret: "", err: errors.New("fail")}
 	_, err := vault.GetSecret("key")
 	if err == nil || err.Error() != "fail" {

@@ -81,6 +81,9 @@ jobs:
             -Dsonar.organization=grupo-bancolombia
             -Dsonar.sources=.
             -Dsonar.coverage.exclusions=**/*_test.go
+            -Dsonar.exclusions=**/*_test.go
+            -Dsonar.tests=.
+            -Dsonar.test.inclusions=**/*_test.go
             -Dsonar.go.coverage.reportPaths=coverage.out
             -Dsonar.qualitygate.wait=true
             -Dsonar.branch.name=${{ github.ref_name }}

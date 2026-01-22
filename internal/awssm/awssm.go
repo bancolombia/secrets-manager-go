@@ -10,14 +10,14 @@ import (
 	"github.com/bancolombia/secretsmanager/api"
 )
 
-type SecretsManagerClient interface {
+type SecretsManagerReader interface {
 	GetSecretValue(ctx context.Context, params *secretsmanager.GetSecretValueInput, optFns ...func(*secretsmanager.Options)) (*secretsmanager.GetSecretValueOutput, error)
 }
 
 type AwsSecretsManager struct {
 	settings api.Settings
 	config   aws.Config
-	client   SecretsManagerClient
+	client   SecretsManagerReader
 }
 
 func NewAwsSecretsManager(settings api.Settings) *AwsSecretsManager {
@@ -31,7 +31,7 @@ func NewAwsSecretsManager(settings api.Settings) *AwsSecretsManager {
 }
 
 // For testing: allow injecting a custom client
-func NewAwsSecretsManagerWithClient(settings api.Settings, client SecretsManagerClient) *AwsSecretsManager {
+func NewAwsSecretsManagerWithClient(settings api.Settings, client SecretsManagerReader) *AwsSecretsManager {
 	cfg, _ := config.LoadDefaultConfig(context.TODO(), config.WithRegion(getRegionFromConfig(settings)))
 	return &AwsSecretsManager{settings: settings, config: cfg, client: client}
 }

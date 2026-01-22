@@ -11,7 +11,7 @@ import (
 
 type SecretsManager struct {
 	Settings api.Settings
-	vault    api.GenericVault
+	vault    api.SecretReader
 }
 
 const VaultTypeAwsSecretManager = "awssm"
@@ -34,7 +34,7 @@ func NewWithDefaults() *SecretsManager {
 }
 
 func NewSecretsManager(settings api.Settings) *SecretsManager {
-	var vaultDef api.GenericVault
+	var vaultDef api.SecretReader
 	switch strings.ToLower(settings.VaultType) {
 	case VaultTypeAwsSecretManager:
 		vaultDef = awssm.NewAwsSecretsManager(settings)

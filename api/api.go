@@ -1,6 +1,6 @@
 package api
 
-type GenericVault interface {
+type SecretReader interface {
 	GetSecret(name string) (string, error)
 }
 
