@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/bancolombia/secretsmanager/api"
+	"github.com/bancolombia/secrets-manager-go/api"
 )
 
 func settingsWithPath(path interface{}) api.Settings {

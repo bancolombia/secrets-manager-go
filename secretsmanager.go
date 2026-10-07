@@ -5,10 +5,10 @@ import (
 	"log"
 	"strings"
 
-	"github.com/bancolombia/secretsmanager/api"
-	"github.com/bancolombia/secretsmanager/internal/awssm"
-	"github.com/bancolombia/secretsmanager/internal/envsm"
-	"github.com/bancolombia/secretsmanager/internal/filesm"
+	"github.com/bancolombia/secrets-manager-go/api"
+	"github.com/bancolombia/secrets-manager-go/internal/awssm"
+	"github.com/bancolombia/secrets-manager-go/internal/envsm"
+	"github.com/bancolombia/secrets-manager-go/internal/filesm"
 )
 
 type SecretsManager struct {

@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/bancolombia/secretsmanager/api"
+	"github.com/bancolombia/secrets-manager-go/api"
 )
 
 const defaultPath = "/mnt/secrets-store"

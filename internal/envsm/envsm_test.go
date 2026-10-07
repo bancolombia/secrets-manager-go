@@ -3,7 +3,7 @@ package envsm
 import (
 	"testing"
 
-	"github.com/bancolombia/secretsmanager/api"
+	"github.com/bancolombia/secrets-manager-go/api"
 )
 
 func TestGetSecret_Success(t *testing.T) {
