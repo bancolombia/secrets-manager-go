@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/bancolombia/secretsmanager/api"
+	"github.com/bancolombia/secrets-manager-go/api"
 )
 
 type mockVault struct {

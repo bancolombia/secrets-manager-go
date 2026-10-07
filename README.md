@@ -15,13 +15,13 @@ Supported backends in this alpha version:
 Add the module to your project:
 
 ```
-go get github.com/bancolombia/secretsmanager
+go get github.com/bancolombia/secrets-manager-go
 ```
 
 Or, if using Go modules, add to your `go.mod`:
 
 ```
-require github.com/bancolombia/secretsmanager latest
+require github.com/bancolombia/secrets-manager-go latest
 ```
 
 ## Configuration
@@ -50,8 +50,8 @@ export AWS_WEB_IDENTITY_TOKEN_FILE=/path/to/token
 
 ```go
 import (
-    "github.com/bancolombia/secretsmanager/api"
-    "github.com/bancolombia/secretsmanager"
+    "github.com/bancolombia/secrets-manager-go/api"
+    "github.com/bancolombia/secrets-manager-go"
 )
 
 awsopts := make(map[string]interface{})
