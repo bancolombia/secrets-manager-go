@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/aws/aws-sdk-go-v2/service/secretsmanager"
-	"github.com/bancolombia/secretsmanager/api"
+	"github.com/bancolombia/secrets-manager-go/api"
 )
 
 type mockSecretsManagerClient struct {
