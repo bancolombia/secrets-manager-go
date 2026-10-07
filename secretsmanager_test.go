@@ -2,9 +2,13 @@ package secretsmanager
 
 import (
 	"errors"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/bancolombia/secretsmanager/api"
+	"github.com/bancolombia/secretsmanager/internal/envsm"
+	"github.com/bancolombia/secretsmanager/internal/filesm"
 )
 
 type mockVault struct {
@@ -83,5 +87,73 @@ func TestNoOpVault_GetSecret(t *testing.T) {
 	_, err := vault.GetSecret("any")
 	if err == nil || err.Error() != "unsupported secret repository vault type" {
 		t.Errorf("expected error for noOpVault, got %v", err)
+	}
+}
+
+func TestVaultTypeConstants(t *testing.T) {
+	if VaultTypeAwsSecretManager != "awssm" {
+		t.Errorf("expected VaultTypeAwsSecretManager 'awssm', got '%s'", VaultTypeAwsSecretManager)
+	}
+	if VaultTypeEnv != "env" {
+		t.Errorf("expected VaultTypeEnv 'env', got '%s'", VaultTypeEnv)
+	}
+	if VaultTypeFile != "file" {
+		t.Errorf("expected VaultTypeFile 'file', got '%s'", VaultTypeFile)
+	}
+}
+
+func TestNewSecretsManager_Env(t *testing.T) {
+	mgr := NewSecretsManager(api.Settings{VaultType: VaultTypeEnv})
+	if _, ok := mgr.vault.(*envsm.EnvSecretsManager); !ok {
+		t.Errorf("expected *envsm.EnvSecretsManager, got %T", mgr.vault)
+	}
+}
+
+func TestNewSecretsManager_EnvVaultTypeIsCaseInsensitive(t *testing.T) {
+	mgr := NewSecretsManager(api.Settings{VaultType: "ENV"})
+	if _, ok := mgr.vault.(*envsm.EnvSecretsManager); !ok {
+		t.Errorf("expected *envsm.EnvSecretsManager, got %T", mgr.vault)
+	}
+}
+
+func TestNewSecretsManager_File(t *testing.T) {
+	settings := api.Settings{
+		VaultType:   VaultTypeFile,
+		VaultConfig: map[string]interface{}{"path": "/mnt/test"},
+	}
+	mgr := NewSecretsManager(settings)
+	if _, ok := mgr.vault.(*filesm.FileSecretsManager); !ok {
+		t.Errorf("expected *filesm.FileSecretsManager, got %T", mgr.vault)
+	}
+}
+
+func TestPullSecret_EnvEndToEnd(t *testing.T) {
+	t.Setenv("E2E_ENV_SECRET", "from-env")
+	mgr := NewSecretsManager(api.Settings{VaultType: VaultTypeEnv})
+	secret, err := mgr.PullSecret("e2e-env-secret")
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+	if secret != "from-env" {
+		t.Errorf("expected 'from-env', got '%s'", secret)
+	}
+}
+
+func TestPullSecret_FileEndToEnd(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "e2e-file-secret"), []byte("from-file\n"), 0o600); err != nil {
+		t.Fatalf("unable to prepare test file: %v", err)
+	}
+	settings := api.Settings{
+		VaultType:   VaultTypeFile,
+		VaultConfig: map[string]interface{}{"path": dir},
+	}
+	mgr := NewSecretsManager(settings)
+	secret, err := mgr.PullSecret("e2e-file-secret")
+	if err != nil {
+		t.Fatalf("expected no error, got %v", err)
+	}
+	if secret != "from-file" {
+		t.Errorf("expected 'from-file', got '%s'", secret)
 	}
 }
