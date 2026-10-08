@@ -7,6 +7,8 @@ import (
 
 	"github.com/bancolombia/secrets-manager-go/api"
 	"github.com/bancolombia/secrets-manager-go/internal/awssm"
+	"github.com/bancolombia/secrets-manager-go/internal/envsm"
+	"github.com/bancolombia/secrets-manager-go/internal/filesm"
 )
 
 type SecretsManager struct {
@@ -14,7 +16,11 @@ type SecretsManager struct {
 	vault    api.SecretReader
 }
 
-const VaultTypeAwsSecretManager = "awssm"
+const (
+	VaultTypeAwsSecretManager = "awssm"
+	VaultTypeEnv              = "env"
+	VaultTypeFile             = "file"
+)
 
 type noOpVault struct{}
 
@@ -38,6 +44,10 @@ func NewSecretsManager(settings api.Settings) *SecretsManager {
 	switch strings.ToLower(settings.VaultType) {
 	case VaultTypeAwsSecretManager:
 		vaultDef = awssm.NewAwsSecretsManager(settings)
+	case VaultTypeEnv:
+		vaultDef = envsm.NewEnvSecretsManager(settings)
+	case VaultTypeFile:
+		vaultDef = filesm.NewFileSecretsManager(settings)
 	default:
 		log.Printf("unsupported backend [%s], using dummy backend instead", settings.VaultType)
 		vaultDef = &noOpVault{}
